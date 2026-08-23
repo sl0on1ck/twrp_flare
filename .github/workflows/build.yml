@@ -71,6 +71,8 @@ jobs:
         working-directory: /home/runner/workdir
         run: |
           source build/envsetup.sh
+          # Load TWRP's lunch (handles two-part "twrp_<device>-eng" combos)
+          [ -f vendor/twrp/build/envsetup.sh ] && . vendor/twrp/build/envsetup.sh
           lunch twrp_flare-eng
           mka recoveryimage vendor_bootimage -j$(nproc --all)
 
