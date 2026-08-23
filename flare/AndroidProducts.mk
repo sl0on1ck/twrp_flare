@@ -3,6 +3,6 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/twrp_flare.mk
 
 COMMON_LUNCH_CHOICES := \
-    twrp_flare-eng \
-    twrp_flare-userdebug \
-    twrp_flare-user
+    twrp_flare-ap2a-eng \
+    twrp_flare-ap2a-userdebug \
+    twrp_flare-ap2a-user

@@ -71,7 +71,7 @@ jobs:
         working-directory: /home/runner/workdir
         run: |
           source build/envsetup.sh
-          lunch twrp_flare-eng
+          lunch twrp_flare-ap2a-eng
           mka recoveryimage vendor_bootimage -j$(nproc --all)
 
       - name: Upload artifact

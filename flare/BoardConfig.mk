@@ -10,6 +10,9 @@
 
 DEVICE_PATH := device/xiaomi/flare
 
+# Minimal-manifest recovery builds: don't fail on missing vendor deps
+ALLOW_MISSING_DEPENDENCIES := true
+
 TARGET_OTA_ASSERT_DEVICE := flare,spark
 
 # A/B
@@ -45,7 +48,7 @@ BOARD_SECOND_OFFSET := 0xbff88000
 BOARD_KERNEL_TAGS_OFFSET := 0x4bc88000
 BOARD_DTB_OFFSET := 0x4bc88000
 BOARD_PAGE_SIZE := 4096
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 androidboot.selinux=permissive
 
 BOARD_BOOTCONFIG_SIZE := 0
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 67108864
