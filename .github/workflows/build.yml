@@ -38,6 +38,17 @@ jobs:
           git config --global user.email "actions@github.com"
           repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b ${{ github.event.inputs.manifest_branch }}
 
+      - name: Cache prebuilt artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            $GITHUB_WORKSPACE/repo/flare/prebuilt/kernel.gz
+            $GITHUB_WORKSPACE/repo/flare/prebuilt/dtb
+            $GITHUB_WORKSPACE/repo/flare/prebuilt/dtbo.img
+          key: ${{ runner.os }}-prebuilt-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-prebuilt-
+
       - name: Sync sources
         working-directory: ~/workdir
         run: |
@@ -53,7 +64,17 @@ jobs:
         run: |
           source build/envsetup.sh
           lunch twrp_flare-eng
-          mka recoveryimage -j$(nproc --all)
+          mka recoveryimage vendor_bootimage -j$(nproc --all)
+
+      - name: Cache built images
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/workdir/out/target/product/flare/recovery.img
+            ~/workdir/out/target/product/flare/vendor_boot.img
+          key: ${{ runner.os }}-built-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-built-
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
