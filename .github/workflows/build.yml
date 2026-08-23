@@ -50,7 +50,7 @@ jobs:
             ${{ runner.os }}-prebuilt-
 
       - name: Sync sources
-        working-directory: ~/workdir
+        working-directory: /home/runner/workdir
         run: |
           repo sync -c -j4 --no-clone-bundle --no-tags --fail-fast
 
@@ -60,7 +60,7 @@ jobs:
           cp -r $GITHUB_WORKSPACE/flare ~/workdir/device/xiaomi/
 
       - name: Build recovery
-        working-directory: ~/workdir
+        working-directory: /home/runner/workdir
         run: |
           source build/envsetup.sh
           lunch twrp_flare-eng
