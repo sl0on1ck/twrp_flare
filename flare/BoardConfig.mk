@@ -12,6 +12,11 @@ DEVICE_PATH := device/xiaomi/flare
 
 # Minimal-manifest recovery builds: don't fail on missing vendor deps
 ALLOW_MISSING_DEPENDENCIES := true
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
+BUILD_BROKEN_VINTF_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_PREBUILT_ELF_FILES := true
+BUILD_BROKEN_DUP_SYSPROP := true
 
 TARGET_OTA_ASSERT_DEVICE := flare,spark
 
@@ -34,8 +39,10 @@ BOARD_HAS_MTK_HARDWARE := true
 # Kernel (prebuilt from stock boot.img, kernel 5.10 GKI)
 TARGET_NO_KERNEL := false
 BOARD_KERNEL_IMAGE_NAME := Image.gz
+TARGET_FORCE_PREBUILT_KERNEL := true
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel.gz
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb
+LOCAL_KERNEL := $(DEVICE_PATH)/prebuilt/kernel.gz
 
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_USES_RECOVERY_AS_BOOT := true
@@ -86,6 +93,18 @@ TW_NO_SCREEN_BLANK := true
 TW_INCLUDE_CRYPTO := true
 TW_USE_FSCRYPT_POLICY := 2
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
+BOARD_USES_METADATA_PARTITION := true
+
+# AVB: build images with verification disabled
+BOARD_AVB_ENABLE := true
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
+
+# Recovery trees commonly override these to avoid signing-level mismatches
+PLATFORM_SECURITY_PATCH := 2099-12-31
+VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+BOOT_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+
+TARGET_RECOVERY_DEVICE_DIRS += $(DEVICE_PATH)
 
 # TWRP specific
 TW_THEME := portrait_hdpi
@@ -102,3 +121,4 @@ TW_INCLUDE_LIBRESETPROP := true
 TW_USE_TOOLBOX := true
 TW_EXCLUDE_APEX := false
 TW_SUPPORT_INPUT_1_2_HAPTICS := true
+TW_PREPARE_DATA_MEDIA_EARLY := true
